@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Dicee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newbackground" translatesAutoresizingMaskIntoConstraints="NO" id="Ds5-2K-LZd">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="diceeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="IXJ-7t-WdM">
+                                <rect key="frame" x="80" y="70" width="254" height="256"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="55" translatesAutoresizingMaskIntoConstraints="NO" id="7lO-TY-atc">
+                                <rect key="frame" x="59.666666666666657" y="308" width="295" height="120"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dice1" translatesAutoresizingMaskIntoConstraints="NO" id="HNU-GI-6rL">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="HNU-GI-6rL" secondAttribute="height" multiplier="1:1" id="CSd-Gq-0BM"/>
+                                            <constraint firstAttribute="width" constant="120" id="lRc-rS-BVp"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dice1" translatesAutoresizingMaskIntoConstraints="NO" id="2Wq-t5-H8Y">
+                                        <rect key="frame" x="175" y="0.0" width="120" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="Hlx-bg-JvP"/>
+                                            <constraint firstAttribute="width" secondItem="2Wq-t5-H8Y" secondAttribute="height" multiplier="1:1" id="idi-NI-ZiA"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cuo-6h-xS2">
+                                <rect key="frame" x="100" y="557" width="214" height="59"/>
+                                <color key="backgroundColor" red="0.65160918235778809" green="0.11956391483545303" blue="0.12166423350572586" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
+                                <state key="normal" title="Roll">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="rollButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mmk-w5-z5y"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Cuo-6h-xS2" secondAttribute="trailing" constant="100" id="5Ki-KY-sB7"/>
+                            <constraint firstItem="Ds5-2K-LZd" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="6i0-mG-O8b"/>
+                            <constraint firstItem="7lO-TY-atc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8b2-Et-8yy"/>
+                            <constraint firstItem="IXJ-7t-WdM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="70" id="B43-9U-8RZ"/>
+                            <constraint firstItem="7lO-TY-atc" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="E3L-5h-adO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Cuo-6h-xS2" secondAttribute="bottom" constant="120" id="FuE-wl-Sdf"/>
+                            <constraint firstItem="IXJ-7t-WdM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="Qvo-4B-vpw"/>
+                            <constraint firstItem="Ds5-2K-LZd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VK9-H9-uCc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IXJ-7t-WdM" secondAttribute="trailing" constant="80" id="fHJ-rs-yn6"/>
+                            <constraint firstItem="Cuo-6h-xS2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="gYz-DC-2Sd"/>
+                            <constraint firstItem="Ds5-2K-LZd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kau-5a-TC3"/>
+                            <constraint firstItem="Ds5-2K-LZd" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="riI-dm-tZh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="diceImageView1" destination="HNU-GI-6rL" id="gIe-eb-p4Z"/>
+                        <outlet property="diceImageView2" destination="2Wq-t5-H8Y" id="VVI-eE-wIW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="138.58695652173915"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="dice1" width="100" height="100"/>
+        <image name="diceeLogo" width="196" height="128"/>
+        <image name="newbackground" width="444.66665649414062" height="414.33334350585938"/>
+    </resources>
+</document>
