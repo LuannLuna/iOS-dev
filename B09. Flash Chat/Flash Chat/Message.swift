@@ -7,7 +7,9 @@
 class Message {
     
     //TODO: Messages need a messageBody and a sender variable
-    
-    
+    var text = ""
+    var imgUrl = ""
+    var senderName = ""
+    var senderPhotoUrl = ""
     
 }

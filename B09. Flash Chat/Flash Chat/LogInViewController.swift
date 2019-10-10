@@ -29,8 +29,10 @@ class LogInViewController: UIViewController {
         
         //TODO: Log in the user
         Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (authResult, error) in
-            if error == nil {
-                
+            if error != nil {
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                self.performSegue(withIdentifier: "goToChat", sender: self)
             }
         }
         
