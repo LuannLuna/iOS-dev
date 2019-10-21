@@ -7,20 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var itemArray = [Item]()
-    let ud = UserDefaults.standard
+    var itemArray: [Item] = []
+    var selectedCategory: Category? {
+        didSet {
+            loadItems()
+        }
+    }
+    
+//    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let items = ud.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
     }
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -29,9 +34,14 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: "Add new todoey item", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Add item", style: .default, handler: { (action) in
             guard let text = textField.text else {return}
-            self.itemArray.append(Item(title: text, done: false))
-            self.ud.set(self.itemArray, forKey: "TodoListArray")
-            self.tableView.reloadData()
+            
+            let item = Item(context: self.context)
+            item.title = text
+            item.done = false
+            item.parentCategory = self.selectedCategory
+            
+            self.itemArray.append(item)
+            self.saveItems()
         }))
         
         alert.addTextField { (alertTextField) in
@@ -40,6 +50,49 @@ class ViewController: UIViewController {
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
+//        if let data = try? Data(contentsOf: dataFilePath!)  {
+//            let decoder = PropertyListDecoder()
+//            do {
+//                itemArray = try decoder.decode([Item].self, from: data)
+                
+//            } catch {
+//                print("Decoder error: \(error.localizedDescription)")
+//            }
+//        }
+        
+//        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let addtionalPredicate = predicate {
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+            request.predicate  = compoundPredicate
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
+        
+        
+        do {
+           itemArray = try context.fetch(request)
+        }catch {
+            print("Error fetch: \(error.localizedDescription)")
+        }
+    }
+    
+    func  saveItems(){
+//        let encoder = PropertyListEncoder()
+        do {
+//            let data = try encoder.encode(self.itemArray)
+//            try data.write(to: self.dataFilePath!)
+            try context.save()
+        } catch {
+            print("Encoder error: \(error.localizedDescription)")
+        }
+        tableView.reloadData()
     }
     
 }
@@ -57,6 +110,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // MARK: Deleting items
+        context.delete(itemArray[indexPath.row])
+        itemArray.remove(at: indexPath.row)
+        saveItems()
+        
+        
+        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         if !itemArray[indexPath.row].done {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -65,6 +126,36 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+        saveItems()
     }
     
+}
+
+extension ViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        
+        loadItems(with: request, predicate: predicate)
+//        do {
+//            itemArray = try context.fetch(request)
+//        } catch {
+//            print("Error: \(error.localizedDescription)")
+//        }
+        
+//        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }

@@ -6,14 +6,14 @@
 //  Copyright © 2019 Luann Marques Luna. All rights reserved.
 //
 
-import Foundation
-
-class Item {
-    var title: String = ""
-    var done: Bool = false
-    
-    init(title: String, done: Bool) {
-        self.title = title
-        self.done = done
-    }
-}
+//import Foundation
+//
+//class Item: Codable {
+//    var title: String = ""
+//    var done: Bool = false
+//    
+//    init(title: String, done: Bool) {
+//        self.title = title
+//        self.done = done
+//    }
+//}
