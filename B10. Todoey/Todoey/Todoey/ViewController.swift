@@ -7,13 +7,15 @@
 //
 
 import UIKit
-import CoreData
+//import CoreData
+import RealmSwift
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    let realm = try! Realm()
     
-    var itemArray: [Item] = []
+    var itemArray: Results<Item>?
     var selectedCategory: Category? {
         didSet {
             loadItems()
@@ -21,7 +23,7 @@ class ViewController: UIViewController {
     }
     
 //    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +37,26 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Add item", style: .default, handler: { (action) in
             guard let text = textField.text else {return}
             
-            let item = Item(context: self.context)
-            item.title = text
-            item.done = false
-            item.parentCategory = self.selectedCategory
+//            let item = Item(context: self.context)
             
-            self.itemArray.append(item)
-            self.saveItems()
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let item = Item()
+                        item.title = text
+                        item.done = false
+                        item.dateCreated = Date()
+        //                item.parentCategory = self.selectedCategory
+                        currentCategory.items.append(item)
+                    }
+                } catch {
+                    print("Encoder error: \(error.localizedDescription)")
+                }
+                
+//                self.itemArray.append(item)
+            }
+            self.tableView.reloadData()
+//            self.saveItems()
         }))
         
         alert.addTextField { (alertTextField) in
@@ -52,7 +67,10 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
+//    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
+    func loadItems(){
+        
+        itemArray = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
 //        if let data = try? Data(contentsOf: dataFilePath!)  {
 //            let decoder = PropertyListDecoder()
 //            do {
@@ -65,82 +83,97 @@ class ViewController: UIViewController {
         
 //        let request: NSFetchRequest<Item> = Item.fetchRequest()
         
-        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
-        
-        if let addtionalPredicate = predicate {
-            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-            request.predicate  = compoundPredicate
-        } else {
-            request.predicate = categoryPredicate
-        }
-        
-        
-        
-        do {
-           itemArray = try context.fetch(request)
-        }catch {
-            print("Error fetch: \(error.localizedDescription)")
-        }
+//        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+//
+//        if let addtionalPredicate = predicate {
+//            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+//            request.predicate  = compoundPredicate
+//        } else {
+//            request.predicate = categoryPredicate
+//        }
+//
+//
+//
+//        do {
+//           itemArray = try context.fetch(request)
+//        }catch {
+//            print("Error fetch: \(error.localizedDescription)")
+//        }
     }
     
-    func  saveItems(){
-//        let encoder = PropertyListEncoder()
-        do {
-//            let data = try encoder.encode(self.itemArray)
-//            try data.write(to: self.dataFilePath!)
-            try context.save()
-        } catch {
-            print("Encoder error: \(error.localizedDescription)")
-        }
-        tableView.reloadData()
-    }
+//    func  saveItems(){
+////        let encoder = PropertyListEncoder()
+//        do {
+////            let data = try encoder.encode(self.itemArray)
+////            try data.write(to: self.dataFilePath!)
+//            try context.save()
+//        } catch {
+//            print("Encoder error: \(error.localizedDescription)")
+//        }
+//        tableView.reloadData()
+//    }
     
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemArray.count
+        return itemArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].title
-        cell.accessoryType = itemArray[indexPath.row].done ? .checkmark : .none
+        if let item = itemArray?[indexPath.row] {
+            cell.textLabel?.text = item.title
+            cell.accessoryType = item.done ? .checkmark : .none
+        } else {
+            cell.textLabel?.text = "No items added"
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // MARK: Deleting items
-        context.delete(itemArray[indexPath.row])
-        itemArray.remove(at: indexPath.row)
-        saveItems()
-        
-        
-        
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-        if !itemArray[indexPath.row].done {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        if let item = itemArray?[indexPath.row] {
+            do {
+                try realm.write {
+                    item.done = !item.done
+                    if !item.done {
+                        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+                    }else{
+                        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+                    }
+                }
+            }catch {
+                print("Error save done status: \(error.localizedDescription)")
+            }
         }
         
+        // MARK: Deleting items
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+//        saveItems()
+        
+        
+        
+//        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+
+        
         tableView.deselectRow(at: indexPath, animated: true)
-        saveItems()
+//        saveItems()
     }
     
 }
 
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-        
-        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-        
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        request.sortDescriptors = [sortDescriptor]
-        
-        loadItems(with: request, predicate: predicate)
+//        let request: NSFetchRequest<Item> = Item.fetchRequest()
+//
+//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+//
+//        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+//        request.sortDescriptors = [sortDescriptor]
+//
+//        loadItems(with: request, predicate: predicate)
 //        do {
 //            itemArray = try context.fetch(request)
 //        } catch {
@@ -148,6 +181,8 @@ extension ViewController: UISearchBarDelegate {
 //        }
         
 //        tableView.reloadData()
+        
+        itemArray = itemArray?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
