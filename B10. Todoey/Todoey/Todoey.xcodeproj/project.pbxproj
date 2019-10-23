@@ -10,6 +10,7 @@
 		8E082CB4235F72B800AE309E /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED53B71235509ED0033E0D4 /* Item.swift */; };
 		8E082CB6235F734E00AE309E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E082CB5235F734E00AE309E /* Category.swift */; };
 		8E16F39F2357928800AC7A4D /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E16F39E2357928800AC7A4D /* CategoryViewController.swift */; };
+		8E1D33CB2360D0010073A200 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1D33CA2360D0010073A200 /* SwipeTableViewController.swift */; };
 		8E4D10CC2355FA9F009668A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ED53B602354B09A0033E0D4 /* Main.storyboard */; };
 		8ED53B5B2354B09A0033E0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED53B5A2354B09A0033E0D4 /* AppDelegate.swift */; };
 		8ED53B5F2354B09A0033E0D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED53B5E2354B09A0033E0D4 /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 		5B1872A41B0B40EE2A0011F9 /* Pods-Todoey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Todoey.release.xcconfig"; path = "Target Support Files/Pods-Todoey/Pods-Todoey.release.xcconfig"; sourceTree = "<group>"; };
 		8E082CB5235F734E00AE309E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		8E16F39E2357928800AC7A4D /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		8E1D33CA2360D0010073A200 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		8E4D10CE23562E1C009668A1 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		8ED53B572354B09A0033E0D4 /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ED53B5A2354B09A0033E0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				8ED53B5E2354B09A0033E0D4 /* ViewController.swift */,
 				8E16F39E2357928800AC7A4D /* CategoryViewController.swift */,
+				8E1D33CA2360D0010073A200 /* SwipeTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -134,7 +137,7 @@
 				8ED53B532354B09A0033E0D4 /* Sources */,
 				8ED53B542354B09A0033E0D4 /* Frameworks */,
 				8ED53B552354B09A0033E0D4 /* Resources */,
-				4810840398AA11F48EF9D9F2 /* [CP] Embed Pods Frameworks */,
+				BA05F6D36AB6EEA332205606 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -214,7 +217,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4810840398AA11F48EF9D9F2 /* [CP] Embed Pods Frameworks */ = {
+		BA05F6D36AB6EEA332205606 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -242,6 +245,7 @@
 				8ED53B5F2354B09A0033E0D4 /* ViewController.swift in Sources */,
 				8E082CB4235F72B800AE309E /* Item.swift in Sources */,
 				8ED53B5B2354B09A0033E0D4 /* AppDelegate.swift in Sources */,
+				8E1D33CB2360D0010073A200 /* SwipeTableViewController.swift in Sources */,
 				8E082CB6235F734E00AE309E /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

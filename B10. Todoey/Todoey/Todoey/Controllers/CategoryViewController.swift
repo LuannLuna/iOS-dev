@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import CoreData
+//import CoreData
 import RealmSwift
+import ChameleonFramework
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     
@@ -21,6 +22,9 @@ class CategoryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.rowHeight = 80.0
+        
         loadCategories()
     }
 
@@ -32,9 +36,10 @@ class CategoryViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories add yet"
-         
+        cell.backgroundColor = UIColor(hexString: (categories?[indexPath.row].color ?? "1D9BF6"))
+        cell.textLabel?.textColor = ContrastColorOf(UIColor(hexString: (categories?[indexPath.row].color ?? "1D9BF6"))!, returnFlat: true)
         return cell
     }
     
@@ -62,6 +67,7 @@ class CategoryViewController: UITableViewController {
 //            let category = Category(context: self.context)
             let category = Category()
             category.name = text
+            category.color = UIColor.randomFlat.hexValue()
             
 //            self.saveCategory()
             self.save(category: category)
@@ -99,5 +105,18 @@ class CategoryViewController: UITableViewController {
         categories = realm.objects(Category.self)
         
         tableView.reloadData()
+    }
+    
+//    MARK: - Deleting
+    override func updateModel(at indexPath: IndexPath) {
+        if let category = categories?[indexPath.row] {
+            do {
+                try realm.write {
+                    self.realm.delete(category)
+                }
+            } catch {
+                print("Error deleting: \(error.localizedDescription)")
+            }
+        }
     }
 }

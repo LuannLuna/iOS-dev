@@ -9,9 +9,11 @@
 import UIKit
 //import CoreData
 import RealmSwift
+import ChameleonFramework
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     let realm = try! Realm()
     
@@ -28,6 +30,34 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let selectedCategory = selectedCategory else { return }
+        
+        title = selectedCategory.name
+        
+        if let color = UIColor(hexString: selectedCategory.color) {
+            navigationController?.navigationBar.barTintColor = color
+            navigationController?.navigationBar.tintColor = ContrastColorOf(color, returnFlat: true)
+            navigationController?.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor : ContrastColorOf(color, returnFlat: true)
+            ]
+            searchBar.barTintColor = color
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        guard let originalColor = UIColor(hexString: "1D9BF6") else { return }
+        navigationController?.navigationBar.barTintColor = originalColor
+        navigationController?.navigationBar.tintColor = FlatWhite()
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor : FlatWhite()
+        ]
     }
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -125,9 +155,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if let item = itemArray?[indexPath.row] {
             cell.textLabel?.text = item.title
             cell.accessoryType = item.done ? .checkmark : .none
+            
+            if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(itemArray!.count)) {
+                cell.backgroundColor = color
+                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+            }
         } else {
             cell.textLabel?.text = "No items added"
         }
+        
         return cell
     }
     
