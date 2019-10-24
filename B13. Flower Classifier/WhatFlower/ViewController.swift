@@ -53,14 +53,37 @@ class ViewController: UIViewController {
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             case .success(let value):
-                let json = JSON(value)
+                let flowerJSON : JSON = JSON(value)
                 
-                let pageid = json["query"]["pageid"][0].stringValue
-                let flowerDescription = json["query"]["pages"][pageid]["extract"].stringValue
-                let flowerImageURL = json["query"]["pages"][pageid]["thumbnail"]["source"].stringValue
+                let pageid = flowerJSON["query"]["pageids"][0].stringValue
                 
-//                self.imageView.sd_setImage(with: URL(string: flowerImageURL))
+                let flowerDescription = flowerJSON["query"]["pages"][pageid]["extract"].stringValue
+                let flowerImageURL = flowerJSON["query"]["pages"][pageid]["thumbnail"]["source"].stringValue
+                
                 self.labelDescription.text = flowerDescription
+                
+                self.imageView.sd_setImage(with: URL(string: flowerImageURL), completed: { (image, error,  cache, url) in
+                    
+                    if let currentImage = self.imageView.image {
+                        
+                        guard let dominantColor = ColorThief.getColor(from: currentImage) else {
+                            fatalError("Can't get dominant color")
+                        }
+                        
+                        
+                        DispatchQueue.main.async {
+                            self.navigationController?.navigationBar.isTranslucent = true
+                            self.navigationController?.navigationBar.barTintColor = dominantColor.makeUIColor()
+                            
+                            
+                        }
+                    } else {
+                        self.imageView.image = self.pickedImage
+                        self.infoLabel.text = "Could not get information on flower from Wikipedia."
+                    }
+                    
+                })
+                
             }
         }
     }
