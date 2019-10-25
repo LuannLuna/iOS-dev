@@ -14,29 +14,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
+    var diceArray: [SCNNode] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-        
         // Set the view's delegate
         sceneView.delegate = self
-        
         sceneView.autoenablesDefaultLighting = true
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        
-        // Create a new scene
-        let diceScene = SCNScene(named: "art.scnassets/diceCollada")!
-        let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: <#T##Bool#>)
-        diceNode?.position = SCNVector3(0, 0, -0.1)
-        
-        if let diceNode = diceNode {
-            sceneView.scene.rootNode.addChildNode(diceNode)
-        }
 
     }
+    
     func diceAndSphere() {
         let cube = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
         let material = SCNMaterial()
@@ -111,12 +101,64 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let result = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
             
-            if !result.isEmpty {
-                
+            if let hitResult = result.first {
+                addDice(at: hitResult)
             }
         }
     }
+    
+    func addDice(at atLocation: ARHitTestResult) {
+        let diceScene = SCNScene(named: "art.scnassets/diceCollada")!
+        if let diceNode = diceScene.rootNode.childNode(withName: "Dice", recursively: true) {
+            
+            
+            diceNode.position = SCNVector3(
+                atLocation.worldTransform.columns.3.x,
+                atLocation.worldTransform.columns.3.y + diceNode.boundingSphere.radius,
+                atLocation.worldTransform.columns.3.z
+            )
+            
+            diceArray.append(diceNode)
+            sceneView.scene.rootNode.addChildNode(diceNode)
+            
+            roll(dice: diceNode)
+        }
+    }
+    
+    func rollAll(){
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                roll(dice: dice)
+            }
+        }
+    }
+    
+    func roll(dice: SCNNode) {
+        let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi / 2)
+        let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi / 2)
+        dice.runAction(SCNAction.rotateBy(
+            x: CGFloat(randomX * 5),
+            y: 0, z: CGFloat(randomZ * 5),
+            duration: 0.5)
+        )
+    }
 
+    @IBAction func rollAgain(_ sender: UIBarButtonItem) {
+        rollAll()
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        rollAll()
+    }
+    
+    @IBAction func removeAllDice(_ sender: UIBarButtonItem) {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                dice.removeFromParentNode()
+            }
+            diceArray.removeAll()
+        }
+    }
     // MARK: - ARSCNViewDelegate
     
 /*
