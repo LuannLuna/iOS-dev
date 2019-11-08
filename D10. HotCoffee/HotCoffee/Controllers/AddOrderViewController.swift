@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol AddCoffeeOrderDelegate {
+    func addCoffeeOrderViewControllerDidSave(order: Order, controller: UIViewController)
+    func addCoffeeOrderViewControllerDidClose(controller: UIViewController)
+}
+
 class AddOrderViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -16,6 +21,8 @@ class AddOrderViewController: UIViewController {
     
     private var vm = AddCoffeOrderViewModel()
     private var coffeeSizesSegmentedController: UISegmentedControl!
+    
+    var delegate: AddCoffeeOrderDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +55,26 @@ class AddOrderViewController: UIViewController {
         vm.selectedSize = selectedSize
         vm.selectedType = vm.types[indexPath.row]
         
+        WebService().load(resource: Order.create(vm: vm)) { (result) in
+            switch result {
+            case .success(let order):
+                if let order = order, let delegate = self.delegate {
+                    DispatchQueue.main.async {
+                        delegate.addCoffeeOrderViewControllerDidSave(order: order, controller: self)
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
+    
+    @IBAction func close(_ sender: UIBarButtonItem) {
+        if let delegate = self.delegate {
+            delegate.addCoffeeOrderViewControllerDidClose(controller: self)
+        }
+    }
+    
 }
 
 extension AddOrderViewController: UITableViewDelegate, UITableViewDataSource {

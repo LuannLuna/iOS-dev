@@ -19,13 +19,8 @@ class OrdersTableViewController: UITableViewController {
     
     
     private func populateOrders() {
-        guard let coffeeOrdesURL = URL(string: "https://guarded-retreat-82533.herokuapp.com") else {
-            fatalError("URL was incorrect")
-        }
         
-        let resource = Resource<[Order]>(url: coffeeOrdesURL)
-        
-        WebService().load(resource: resource) { [weak self] result in
+        WebService().load(resource: Order.all) { [weak self] result in
             switch result {
             case .success(let orders):
                 self?.orderListViewModel.ordersViewModel = orders.map(OrderViewModel.init)
@@ -34,6 +29,14 @@ class OrdersTableViewController: UITableViewController {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navC = segue.destination as? UINavigationController, let addCoffeeOrderVC = navC.viewControllers.first as? AddOrderViewController else {
+            fatalError("Error performing segue")
+        }
+        
+        addCoffeeOrderVC.delegate = self
     }
 }
 
@@ -55,4 +58,20 @@ extension OrdersTableViewController {
         
         return cell
     }
+}
+
+
+extension OrdersTableViewController: AddCoffeeOrderDelegate {
+    func addCoffeeOrderViewControllerDidSave(order: Order, controller: UIViewController) {
+        controller.dismiss(animated: true, completion: nil)
+        
+        let orderVM = OrderViewModel(order: order)
+        self.orderListViewModel.ordersViewModel.append(orderVM)
+        self.tableView.reloadData()
+    }
+    
+    func addCoffeeOrderViewControllerDidClose(controller: UIViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 }
