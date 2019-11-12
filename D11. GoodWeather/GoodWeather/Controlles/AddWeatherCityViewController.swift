@@ -25,7 +25,7 @@ class AddWeatherCityViewController: UIViewController {
     
     @IBAction func save(_ sender: UIButton) {
         if let city = cityNameTextField.text {
-            let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
+            let WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
             let APP_ID = "62f6e179179cd8913a5d4b5a817b994d"
             
             let weatherURL = URL(string: "\(WEATHER_URL)?q=\(city)&\(APP_ID)")!

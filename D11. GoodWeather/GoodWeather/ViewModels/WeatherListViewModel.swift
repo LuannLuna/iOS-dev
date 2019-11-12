@@ -12,6 +12,17 @@ struct WeatherListViewModel {
     
     private var weatherViewModels = [WeatherViewModel]()
     
+    var numberOfRow: Int {
+        return weatherViewModels.count
+    }
+    
+    mutating func addWeatherViewModel(_ vm: WeatherViewModel) {
+        weatherViewModels.append(vm)
+    }
+    
+    func modelAt(index: Int) -> WeatherViewModel {
+        return weatherViewModels[index]
+    }
 }
 
 struct WeatherViewModel: Decodable {
