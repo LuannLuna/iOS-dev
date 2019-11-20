@@ -11,8 +11,8 @@ import UIKit
 class WeatherCell: UITableViewCell {
     
     func  prepare(_ model: WeatherViewModel) {
-        textLabel?.text = model.name
-        detailTextLabel?.text = String(format: "%.2f", model.currentTemperature.temperature) + " ºC"
+        textLabel?.text = model.name.value
+        detailTextLabel?.text = model.currentTemperature.temperature.value.formatAsDegree
     }
     
 }

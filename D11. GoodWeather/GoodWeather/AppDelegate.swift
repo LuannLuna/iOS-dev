@@ -25,7 +25,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         UIBarButtonItem.appearance().tintColor = .white
         
+        setupDedaultsSettings()
+        
         return true
+    }
+    
+    private func setupDedaultsSettings() {
+        let userDefault = UserDefaults.standard
+        if userDefault.value(forKey: "unit") == nil {
+            userDefault.set(Unit.fahrenheit.rawValue, forKey: "unit")
+        }
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -14,9 +14,25 @@ protocol AddWeatherDelegate {
 
 class AddWeatherCityViewController: UIViewController {
 
-    @IBOutlet weak var cityNameTextField: UITextField!
+    @IBOutlet weak var cityNameTextField: BindingTextField! {
+        didSet {
+            cityNameTextField.bind { self.addCityViewModel.city = $0 }
+        }
+    }
+    @IBOutlet weak var stateTextField: BindingTextField! {
+        didSet {
+            cityNameTextField.bind { self.addCityViewModel.state = $0 }
+        }
+    }
+    @IBOutlet weak var zipcodeTextField: BindingTextField! {
+        didSet {
+            cityNameTextField.bind { self.addCityViewModel.zipCode = $0 }
+        }
+    }
     
     var delegate: AddWeatherDelegate?
+    
+    private var addCityViewModel = AddCityViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
