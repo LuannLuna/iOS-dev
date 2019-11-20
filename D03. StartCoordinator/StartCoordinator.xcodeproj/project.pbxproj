@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E20CB48238588BA0008CC0C /* BuyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20CB47238588BA0008CC0C /* BuyCoordinator.swift */; };
+		8E20CB4A2385A9AC0008CC0C /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E20CB492385A9AC0008CC0C /* MainTabBarController.swift */; };
 		8E8EF563236B105F00EB6069 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EF562236B105F00EB6069 /* AppDelegate.swift */; };
 		8E8EF565236B105F00EB6069 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8EF564236B105F00EB6069 /* ViewController.swift */; };
 		8E8EF568236B105F00EB6069 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E8EF566236B105F00EB6069 /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E20CB47238588BA0008CC0C /* BuyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCoordinator.swift; sourceTree = "<group>"; };
+		8E20CB492385A9AC0008CC0C /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		8E8EF55F236B105F00EB6069 /* StartCoordinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StartCoordinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E8EF562236B105F00EB6069 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E8EF564236B105F00EB6069 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 				8E8EF569236B106100EB6069 /* Assets.xcassets */,
 				8E8EF56B236B106100EB6069 /* LaunchScreen.storyboard */,
 				8E8EF56E236B106100EB6069 /* Info.plist */,
+				8E20CB492385A9AC0008CC0C /* MainTabBarController.swift */,
 			);
 			path = StartCoordinator;
 			sourceTree = "<group>";
@@ -81,6 +86,7 @@
 			children = (
 				8E8EF575236B11EA00EB6069 /* Coordinator.swift */,
 				8E8EF579236B155E00EB6069 /* MainCoordinator.swift */,
+				8E20CB47238588BA0008CC0C /* BuyCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -168,7 +174,9 @@
 			files = (
 				8E8EF57F236B199800EB6069 /* CreateAccountViewController.swift in Sources */,
 				8E8EF565236B105F00EB6069 /* ViewController.swift in Sources */,
+				8E20CB4A2385A9AC0008CC0C /* MainTabBarController.swift in Sources */,
 				8E8EF563236B105F00EB6069 /* AppDelegate.swift in Sources */,
+				8E20CB48238588BA0008CC0C /* BuyCoordinator.swift in Sources */,
 				8E8EF576236B11EA00EB6069 /* Coordinator.swift in Sources */,
 				8E8EF57A236B155E00EB6069 /* MainCoordinator.swift in Sources */,
 				8E8EF578236B145500EB6069 /* Storyboarded.swift in Sources */,
