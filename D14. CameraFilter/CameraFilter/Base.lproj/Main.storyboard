@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FqQ-WO-Qho">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FqQ-WO-Qho">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,28 +17,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vk9-as-KqC">
-                                <rect key="frame" x="0.0" y="64" width="375" height="500.5"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="518"/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRV-LM-NVm">
-                                <rect key="frame" x="131" y="600" width="112" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRV-LM-NVm">
+                                <rect key="frame" x="131" y="597" width="113" height="50"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.59607843140000005" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="67B-9I-ZIV"/>
+                                </constraints>
                                 <state key="normal" title="Apply Filter">
                                     <color key="titleColor" red="0.99381813910000005" green="1" blue="0.98309177110000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="applyFilterButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="amD-te-WT5"/>
+                                </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oRV-LM-NVm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="131" id="6TC-Yv-xkJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oRV-LM-NVm" secondAttribute="bottom" constant="20" id="AXu-bQ-2nR"/>
                             <constraint firstItem="Vk9-as-KqC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BYF-Xn-Jhy"/>
                             <constraint firstItem="oRV-LM-NVm" firstAttribute="centerX" secondItem="Vk9-as-KqC" secondAttribute="centerX" id="JTj-m3-XJa"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oRV-LM-NVm" secondAttribute="bottom" constant="37" id="JtV-ZA-gjH"/>
                             <constraint firstItem="Vk9-as-KqC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="WNi-Hh-QSR"/>
                             <constraint firstItem="Vk9-as-KqC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZDd-oD-lWK"/>
                             <constraint firstItem="oRV-LM-NVm" firstAttribute="top" secondItem="Vk9-as-KqC" secondAttribute="bottom" constant="35" id="dd9-U9-z57"/>
-                            <constraint firstItem="Vk9-as-KqC" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.75" id="gyN-ht-Zcf"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Camera Filter" id="Ad0-Dj-ZdA">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xaB-Am-tWs">
@@ -50,6 +53,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="applyFilterButton" destination="oRV-LM-NVm" id="jan-ai-0vP"/>
                         <outlet property="photoImageView" destination="Vk9-as-KqC" id="qsW-m0-Lzx"/>
                     </connections>
                 </viewController>
@@ -62,7 +66,7 @@
             <objects>
                 <collectionViewController id="uwQ-BS-5kF" customClass="PhotosCollectionViewController" customModule="CameraFilter" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xXt-3c-AjP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rwW-WH-dej">
@@ -112,7 +116,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FqQ-WO-Qho" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="VoH-lm-Cf8">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -130,7 +134,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gur-cM-Amc" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NOC-bB-2Fm">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

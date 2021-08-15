@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PlaygroundSupport
 
 /*
 let observable = Observable.just(1)
@@ -97,15 +98,24 @@ variable.asObservable().subscribe {print($0)}
 */
 
 
+//
+//let disposeBag = DisposeBag()
+//
+//let relay = BehaviorRelay(value: ["initial value"])
+//
+//var value = relay.value
+//value.append("Element 2")
+//
+//relay.accept(value)
+//
+//relay.asObservable().subscribe {print($0)}
+//
+
+
+let strikes = PublishSubject<String>()
 
 let disposeBag = DisposeBag()
 
-let relay = BehaviorRelay(value: ["initial value"])
-
-var value = relay.value
-value.append("Element 2")
-
-relay.accept(value)
-
-relay.asObservable().subscribe {print($0)}
-
+strikes.ignoreElements().subscribe { _ in
+    print("[Subscriptions is called]")
+}.disposed(by: disposeBag)
